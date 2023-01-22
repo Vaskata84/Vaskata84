@@ -30,7 +30,7 @@ replicaset.apps/controller-1f23s353fd   1         1         1       11s
 
 
 Downloads baremetal ingress-nginx
-wget https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/deploy.yaml -O nginx-deploy.yaml
+wget https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/ingress-nginx-1.1.1v.yaml -O nginx-deploy.yaml
 
 replace 'Deployment' with 'Daemonset'
 replace 'NodePort' with 'LoadBalancer'
