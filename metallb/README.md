@@ -76,12 +76,12 @@ pod/ingress-nginx-controller-drd33         0/1     ContainerCreating   0        
 pod/ingress-nginx-admission-create-hg543   0/1     Completed           0          55s
 pod/ingress-nginx-admission-patch-gh543    0/1     Completed           0          55s
 
-NAME                                         TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)                      AGE
-service/ingress-nginx-controller-admission   ClusterIP      10.43.154.43                   443/TCP                      55s
-service/ingress-nginx-controller             LoadBalancer   10.43.27.211   192.168.88.240  80:32652/TCP,443:31400/TCP   55s
+NAME                                         TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                    AGE
+service/ingress-nginx-controller-admission   ClusterIP      10.43.154.43                  443/TCP                    55s
+service/ingress-nginx-controller             LoadBalancer   10.43.27.211   192.168.88.240 80:32652/TCP,443:31400/TCP 55s
 
-NAME                                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/ingress-nginx-controller   3         3         0       3            0           kubernetes.io/os=linux   55s
+NAME                                      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE  NODE SELECTOR          AGE
+daemonset.apps/ingress-nginx-controller   3         3         0       3            0          kubernetes.io/os=linux 55s
 
 NAME                                       COMPLETIONS   DURATION   AGE
 job.batch/ingress-nginx-admission-create   1/1           12s        55s
