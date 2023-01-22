@@ -9,4 +9,4 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 192.168.88.240-192.168.88.250
+      - "{{metal_lb_primary}}-{{metal_lb_secondary}}"
