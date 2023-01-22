@@ -35,4 +35,4 @@ wget https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/
 replace 'Deployment' with 'Daemonset'
 replace 'NodePort' with 'LoadBalancer'
 sed -i 's/type: NodePort/type: LoadBalancer/' nginx-deploy.yaml
-sed -i 's/kind: Deployment/kind: DaemonSet/' nginx-deploy.yaml
+sed -i 's/kind: Deployment/kind: DaemonSet/' nginx-deploy.yaml 
