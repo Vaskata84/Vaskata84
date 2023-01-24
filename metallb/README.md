@@ -40,7 +40,8 @@ replicaset.apps/controller-4hdjf65hw4   1         1         1       11s</pre>
 
 <p style="text-align:start"><span style="font-size:11px">replace &#39;Deployment&#39; with &#39;Daemonset&#39; replace &#39;NodePort&#39; with &#39;LoadBalancer&#39;</span></p>
 
-<p style="text-align:start"><span style="font-size:11px">sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml</span></p>
+<p style="text-align:start"><span style="font-size:11px">sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml 
+  sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml</span></p>
 
 <pre>
 <span style="font-size:11px">kubectl apply -f nginx-deploy.yaml
