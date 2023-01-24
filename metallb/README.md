@@ -2,23 +2,23 @@
 
 <p style="text-align:start"><strong>Per the MetalLB installation by manifest section, install into the metallb-system namespace.</strong></p>
 
-<p style="text-align:start"><span style="font-size:11px">kubectl apply -f&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/namespace.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/namespace.yaml</a>&nbsp;</span></p>
+<p style="text-align:start">kubectl apply -f&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/namespace.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/namespace.yaml</a>&nbsp;</p>
 
-<p style="text-align:start"><span style="font-size:11px">kubectl apply -f&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metallb.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metallb.yaml</a></span></p>
+<p style="text-align:start">kubectl apply -f&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metallb.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metallb.yaml</a></p>
 
 <p style="text-align:start"><strong>Then create a MetalLB configmap that instructs it which IP to use.</strong></p>
 
 <p style="text-align:start">Downloads MetalLB configmap template.</p>
 
-<p style="text-align:start"><span style="font-size:11px">wget&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metal-LB.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metal-LB.yaml</a>&nbsp;-O metal-temp.yml</span></p>
+<p style="text-align:start">wget&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metal-LB.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/metallb/metal-LB.yaml</a>&nbsp;-O metal-temp.yml</p>
 
-<p style="text-align:start"><span style="font-size:11px">sed -i &#39;s/{{metal_lb_primary}}-{{metal_lb_secondary}}/192.168.88.240-192.168.88.250/&#39; metal-temp.yml</span></p>
+<p style="text-align:start">sed -i &#39;s/{{metal_lb_primary}}-{{metal_lb_secondary}}/192.168.88.240-192.168.88.250/&#39; metal-temp.yml</p>
 
-<p style="text-align:start"><span style="font-size:11px">kubectl apply -f metal-teml.yml</span></p>
+<p style="text-align:start">kubectl apply -f metal-teml.yml</p>
 
-<p style="text-align:start"><span style="font-size:11px">kubectl get all -n metallb-system</span></p>
+<p style="text-align:start">kubectl get all -n metallb-system</p>
 
-<pre>
+<pre style="text-align:start">
 NAME                              READY   STATUS    RESTARTS   AGE
 pod/controller-4hdjf65hw4-rb7dc   1/1     Running   0          11s
 pod/speaker-56gdd                 1/1     Running   0          11s
@@ -34,18 +34,19 @@ deployment.apps/controller   1/1     1            1           11s
 NAME                                    DESIRED   CURRENT   READY   AGE
 replicaset.apps/controller-4hdjf65hw4   1         1         1       11s</pre>
 
-<p style="text-align:start"><strong>Downloads baremetal ingress-nginx </strong></p>
+<p style="text-align:start"><strong>Downloads baremetal ingress-nginx</strong></p>
 
-<p style="text-align:start"><span style="font-size:11px">wget&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/ingress-nginx-1.1.1v.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/ingress-nginx-1.1.1v.yaml</a>&nbsp;-O nginx-deploy.yaml</span></p>
+<p style="text-align:start">wget&nbsp;<a href="https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/ingress-nginx-1.1.1v.yaml" rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: var(--color-accent-fg); text-decoration: none;">https://raw.githubusercontent.com/Vaskata84/Vaskata84/master/ingress-nginx/ingress-nginx-1.1.1v.yaml</a>&nbsp;-O nginx-deploy.yaml</p>
 
-<p style="text-align:start"><span style="font-size:11px">replace &#39;Deployment&#39; with &#39;Daemonset&#39; replace &#39;NodePort&#39; with &#39;LoadBalancer&#39;</span></p>
+<p style="text-align:start">replace &#39;Deployment&#39; with &#39;Daemonset&#39; replace &#39;NodePort&#39; with &#39;LoadBalancer&#39;</p>
 
-<p style="text-align:start"><span style="font-size:11px">sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml 
-  sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml</span></p>
+<p style="text-align:start">sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml</p>
 
-<pre>
-<span style="font-size:11px">kubectl apply -f nginx-deploy.yaml
-</span>
+<p style="text-align:start">sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml</p>
+
+<pre style="text-align:start">
+kubectl apply -f nginx-deploy.yaml
+
 namespace/ingress-nginx created
 serviceaccount/ingress-nginx created
 configmap/ingress-nginx-controller created
@@ -66,10 +67,10 @@ rolebinding.rbac.authorization.k8s.io/ingress-nginx-admission created
 job.batch/ingress-nginx-admission-create created
 job.batch/ingress-nginx-admission-patch created</pre>
 
-<pre>
-<span style="font-size:11px">kubectl get all -n ingress-nginx</span></pre>
+<pre style="text-align:start">
+kubectl get all -n ingress-nginx</pre>
 
-<pre>
+<pre style="text-align:start">
 NAME                                       READY   STATUS              RESTARTS   AGE
 pod/ingress-nginx-controller-th54d         0/1     ContainerCreating   0          55s
 pod/ingress-nginx-controller-fg45s         0/1     ContainerCreating   0          55s
