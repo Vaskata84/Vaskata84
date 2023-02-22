@@ -1,3 +1,11 @@
+<main>
+    <article>
+        <header>
+            <h1 itemprop="headline"><a href="https://fabianlee.org/2022/01/12/kubernetes-nfs-mount-using-dynamic-volume-and-storage-class/" rel="bookmark" title="Kubernetes: NFS mount using dynamic volume and Storage Class">Kubernetes: NFS mount using dynamic volume and Storage Class</a></h1>
+        </header>
+    </article>
+</main>
+
 <p><strong>Install NFS Server&nbsp;</strong></p>
 <pre>sudo apt-get update
 sudo apt-get install nfs-common nfs-kernel-server -y</pre>
