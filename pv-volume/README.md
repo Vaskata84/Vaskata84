@@ -1,7 +1,7 @@
 <main>
     <article>
         <header>
-            <h1 itemprop="headline"><a href="https://fabianlee.org/2022/01/12/kubernetes-nfs-mount-using-dynamic-volume-and-storage-class/" rel="bookmark" title="Kubernetes: NFS mount using dynamic volume and Storage Class">Kubernetes: NFS mount using dynamic volume and Storage Class</a></h1>
+            <h1 itemprop="headline"><a href="https://github.com/Vaskata84/Vaskata84/edit/master/pv-volume/" rel="bookmark" title="Kubernetes: NFS mount using dynamic volume and Storage Class">Kubernetes: NFS mount using dynamic volume and Storage Class</a></h1>
         </header>
     </article>
 </main>
