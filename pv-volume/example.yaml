@@ -1,0 +1,14 @@
+### Import example your application           
+          volumeMounts:
+            - name: sc-nfs-pvc
+              mountPath: /data/nfs1
+
+  volumeClaimTemplates:
+    - metadata:
+        name: sc-nfs-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "nfs-client"
+        resources:
+          requests:
+            storage: 1Gi
