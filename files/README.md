@@ -79,3 +79,11 @@ WantedBy=multi-user.target
 <pre>
 <code class="language-bash">ETCDCTL_API=3 etcdctl member list
 </code></pre>
+
+<p><strong>It should give you an output similar to this:</strong></p>
+
+<pre>
+<code class="language-bash">73ea126859b3ba4, started, 192.168.88.128, https://192.168.88.128:2380, https://192.168.88.128:2379, false
+a28911111213cc6c, started, 192.168.88.129, https://192.168.88.129:2380, https://192.168.88.129:2379, false
+feadb5a763a32caa, started, 192.168.88.130, https://192.168.88.130:2380, https://192.168.88.130:2379, false
+</code></pre>
