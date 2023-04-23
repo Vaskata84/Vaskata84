@@ -1,10 +1,12 @@
 <p><strong>Downloads manifest</strong></p>
 
-<p>wget https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/deploy.yaml -O nginx-deploy.yaml<br />
+<p>wget <a href="https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/deploy.yaml">https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/deploy.yaml</a> -O nginx-deploy.yaml<br />
 replace &#39;Deployment&#39; with &#39;Daemonset&#39;<br />
 replace &#39;NodePort&#39; with &#39;LoadBalancer&#39;</p>
 
-<p>sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml<br />
+<p>sed -i &#39;s/type: NodePort/type: LoadBalancer/&#39; nginx-deploy.yaml</p>
+
+<p>sed -i &#39;s/kind: Deployment/kind: DaemonSet/&#39; nginx-deploy.yaml<br />
 create NGINX objects</p>
 
 <p>$ kubectl apply -f nginx-deploy.yaml</p>
@@ -20,7 +22,7 @@ kubectl get Validatingwebhookconfigurations ingress-nginx-admission -o=yaml | yq
 <p><strong>Enable Secondary Ingress</strong></p>
 
 <p># apply DaemonSet that creates secondary ingress<br />
-wget https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary.yaml -O nginx-ingress-secondary-controller.yaml</p>
+wget <a href="https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary.yaml">https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary.yaml</a> -O nginx-ingress-secondary-controller.yaml</p>
 
 <p># set namespace<br />
 sed -i &#39;s/{{nginx_ns}}/ingress-nginx/&#39; nginx-ingress-secondary-controller.yaml</p>
@@ -30,7 +32,7 @@ daemonset.apps/nginx-ingress-secondary-controller created</p>
 
 <p>Then create the secondary ingress service</p>
 
-<p>$ wget https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary-service.yaml -O nginx-ingress-secondary-service.yaml</p>
+<p>$ wget <a href="https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary-service.yaml">https://github.com/Vaskata84/Vaskata84/blob/master/NEW-ingress-v1.7.0/nginx-ingress-secondary-service.yaml</a> -O nginx-ingress-secondary-service.yaml</p>
 
 <p># set namespace and second MetalLB-IP<br />
 $ sed -i &#39;s/{{nginx_ns}}/ingress-nginx/&#39; nginx-ingress-secondary-service.yaml<br />
