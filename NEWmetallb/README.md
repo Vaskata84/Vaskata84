@@ -1,24 +1,26 @@
-MetalLB installation by manifest section, install into the metallb-system 
-# download manifest
-wget https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-native.yaml
+<p><strong>MetalLB installation by manifest section, install into the metallb-system</strong><br />
+# Download manifest<br />
+wget https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-native.yaml</p>
 
-# updating validatingwebhookconfigurations so it does not fail under k3s
-sed -i 's/failurePolicy: Fail/failurePolicy: Ignore/' metallb-native.yaml
+<p># updating validatingwebhookconfigurations so it does not fail under k3s<br />
+sed -i &#39;s/failurePolicy: Fail/failurePolicy: Ignore/&#39; metallb-native.yaml</p>
 
-# apply manifest
-kubectl apply -f metallb-native.yaml
+<p># apply manifest<br />
+kubectl apply -f metallb-native.yaml</p>
 
-# show ip address, including ens4 and ens5 which are used for MetalLB endpoints
-ip a
+<p># show ip address, including ens4 and ens5 which are used for MetalLB endpoints<br />
+ip a</p>
 
-# get MetalLB configmap template
-wget https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-ipaddresspool.yml -O metallb-ipaddresspool.yml
+<p># get MetalLB configmap template<br />
+wget https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-ipaddresspool.yml -O metallb-ipaddresspool.yml</p>
 
-# change addresses to MetalLB endpoints
-sed -i 's/{{metal_lb_primary}}-{{metal_lb_secondary}}/192.168.88.240-192.168.88.250/' metallb-ipaddresspool.yml
+<p># change addresses to MetalLB endpoints<br />
+sed -i &#39;s/{{metal_lb_primary}}-{{metal_lb_secondary}}/192.168.88.240-192.168.88.250/&#39; metallb-ipaddresspool.yml</p>
 
-# apply
-kubectl apply -f metallb-ipaddresspool.yml
+<p># apply<br />
+kubectl apply -f metallb-ipaddresspool.yml</p>
 
-# show created objects
-$ kubectl get all -n metallb-system
+<p># show created objects<br />
+$ kubectl get all -n metallb-system</p>
+
+<p>&nbsp;</p>
