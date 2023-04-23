@@ -1,6 +1,6 @@
 MetalLB installation by manifest section, install into the metallb-system 
 # download manifest
-wget [https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-native.yaml]
+wget https://github.com/Vaskata84/Vaskata84/blob/master/NEWmetallb/metallb-native.yaml
 
 # updating validatingwebhookconfigurations so it does not fail under k3s
 sed -i 's/failurePolicy: Fail/failurePolicy: Ignore/' metallb-native.yaml
