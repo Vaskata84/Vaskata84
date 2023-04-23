@@ -44,8 +44,8 @@ service/ingress-secondary created</p>
 <p># see primary and secondary nginx-controller<br />
 $ kubectl get ds -n ingress-nginx<br />
 NAME DESIRED CURRENT READY UP-TO-DATE AVAILABLE NODE SELECTOR AGE<br />
-ingress-nginx-controller 3 3 3 3 3 kubernetes.io/os=linux 34m<br />
-nginx-ingress-secondary-controller 3 3 3 3 3 &lt;none&gt; 1m15s</p>
+ingress-nginx-controller 1 1 1 1 1 kubernetes.io/os=linux 34m<br />
+nginx-ingress-secondary-controller 1 1 1 1 1 &lt;none&gt; 1m15s</p>
 
 <p>$ kubectl get services -n ingress-nginx</p>
 
