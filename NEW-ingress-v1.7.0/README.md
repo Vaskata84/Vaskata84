@@ -14,6 +14,7 @@ NAME                      WEBHOOKS   AGE
 ingress-nginx-admission   1          2m
 
 # and finally disable the nginx validating webhook for kubernetes
+snap install yq 
 kubectl get Validatingwebhookconfigurations ingress-nginx-admission -o=yaml | yq '.webhooks[].failurePolicy = "Ignore"' | kubectl apply -f -
 validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission configured
 
