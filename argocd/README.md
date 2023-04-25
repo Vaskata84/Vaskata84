@@ -11,10 +11,10 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 
-2. Access The Argo CD API Server¶
+2. Access The Argo CD API Server
 
 By default, the Argo CD API server is not exposed with an external IP. To access the API server, choose one of the following techniques to expose the Argo CD API server:
-Service Type Load Balancer¶
+Service Type Load Balancer
 
 Change the argocd-server service type to LoadBalancer:
 
