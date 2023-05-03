@@ -11,11 +11,13 @@ create NGINX objects</p>
 
 <p>$ kubectl apply -f nginx-deploy.yaml</p>
 
-<p>$ kubectl get Validatingwebhookconfigurations ingress-nginx-admission NAME WEBHOOKS AGE ingress-nginx-admission 1 2m<br />
+<p>$ kubectl get Validatingwebhookconfigurations ingress-nginx-admission<p>
+<p>NAME WEBHOOKS AGE ingress-nginx-admission 1 2m<br />
 and finally disable the nginx validating webhook for kubernetes<br />
 #Install App<br />
 snap install yq<br />
-kubectl get Validatingwebhookconfigurations ingress-nginx-admission -o=yaml | yq &#39;.webhooks[].failurePolicy = &quot;Ignore&quot;&#39; | kubectl apply -f - validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission configured</p>
+kubectl get Validatingwebhookconfigurations ingress-nginx-admission -o=yaml | yq &#39;.webhooks[].failurePolicy = &quot;Ignore&quot;&#39; | kubectl apply -f -<p> 
+<p>validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission configured</p>
 
 <p>kubectl get all -n ingress-nginx</p>
 
