@@ -7,8 +7,8 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    #kubernetes.io/tls-acme: "true"
+    #nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     acme.cert-manager.io/http01-edit-in-place: "true"
     #nginx.ingress.kubernetes.io/denylist-source-range: 91.139.248.196/32
     #ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0,::/0
