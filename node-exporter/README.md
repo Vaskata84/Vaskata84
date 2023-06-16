@@ -1,1 +1,1 @@
-curl http://127.0.0.1:9116/node?target=10.0.0.1 test
+curl http://127.0.0.1:9116/snmp?target=10.0.0.1 test
