@@ -10,3 +10,15 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+
+---------------------------------------works with both configurations____________________________________
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-service
+spec:
+  selector:
+    app: phpmyadmin
+  ports:
+  - name: phpmyadmin
+    port: 80
