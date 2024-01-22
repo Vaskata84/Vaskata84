@@ -1,1 +1,14 @@
+# nfspvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sc-nfs-pvc
+  namespace: myweb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "nfs-client"
+  resources:
+    requests:
+      storage: 1Gi
 
