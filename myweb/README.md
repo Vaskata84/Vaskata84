@@ -1,5 +1,7 @@
 <div class="Box-sc-g0xbh4-0 bJMeLZ js-snippet-clipboard-copy-unpositioned" data-hpc="true">
 <article class="markdown-body entry-content container-lg">
+<p dir="auto"><span style="color: #000000;"><strong><a href="https://kubernetes.io/docs/concepts/overview/">Kubernetes</a></strong></span></p>
+<p dir="auto"><span style="color: #000000;"><strong>Вашия уеб сървър с Nginx, в който да можете да добавяте свои HTML или PHP файлове.</strong></span></p>
 <p dir="auto"><span style="color: #000000;"><strong>Как да използвате тези файлове:</strong></span></p>
 <p dir="auto"><span style="color: #008000;">kubectl apply -f namespace.yaml</span></p>
 <p dir="auto"><span style="color: #008000;">Създайте PersistentVolumeClaim:</span></p>
