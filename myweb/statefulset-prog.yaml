@@ -1,1 +1,111 @@
+# statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: myweb
+  namespace: myweb
+spec:
+  replicas: 2
+  serviceName: myweb-service
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          command: ["/bin/sh"]
+          args: ["-c", "apt-get update && apt-get install -y your-package && nginx -g 'daemon off;'"]
+          # Вместо "your-package" поставете името на пакета, който искате да инсталирате
+          volumeMounts:
+            - name: sc-nfs-pvc
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: sc-nfs-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "nfs-client"
+        resources:
+          requests:
+            storage: 1Gi
 
+#Тук, в секцията containers, добавихме ключовете command и args, които указват на контейнера да изпълни командата 
+#/bin/sh -c "apt-get update && apt-get install -y your-package && nginx -g 'daemon off;'". 
+#Това ще актуализира пакетната база данни и инсталира нов софтуерен пакет преди да стартира Nginx.
+
+
+#Ето пример как бихте могли да използвате външен файл за аргументите във вашия StatefulSet:
+
+# init-script.sh
+#!/bin/sh
+apt-get update
+apt-get install -y your-package
+nginx -g 'daemon off;'
+
+#1.Създайте ConfigMap за вашия скрипт:
+
+# configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-script-config
+  namespace: myweb
+data:
+  init-script.sh: |
+    #!/bin/sh
+    apt-get update
+    apt-get install -y your-package
+    nginx -g 'daemon off;'
+
+#2.Използвайте ConfigMap във вашия StatefulSet:
+
+# statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: myweb
+  namespace: myweb
+spec:
+  replicas: 2
+  serviceName: myweb-service
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          command: ["/bin/sh", "/usr/share/nginx/html/init-script.sh"]
+          volumeMounts:
+            - name: sc-nfs-pvc
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: sc-nfs-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "nfs-client"
+        resources:
+          requests:
+            storage: 1Gi
+  volumes:
+    - name: init-script-volume
+      configMap:
+        name: init-script-config
+        
+#3.Тук, създадохме ConfigMap с име init-script-config, който съдържа вашия скрипт init-script.sh. 
+#После, във вашето StatefulSet добавихме volumes и volumeMounts, за да свържем ConfigMap с контейнера и да посочим пътя към скрипта. 
+#Накрая, променихме command, за да изпълнил именно този скрипт при стартиране на контейнера.
