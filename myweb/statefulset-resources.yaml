@@ -1,1 +1,42 @@
+# statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: myweb
+  namespace: myweb
+spec:
+  replicas: 2  # Променете броя на репликите според вашите нужди
+  serviceName: myweb-service
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.5"
+            requests:
+              memory: "256Mi"
+              cpu: "0.25"
+          volumeMounts:
+            - name: sc-nfs-pvc
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: sc-nfs-pvc
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "nfs-client"
+        resources:
+          requests:
+            storage: 1Gi
 
