@@ -1,0 +1,28 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myweb
+  namespace: myweb
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myweb
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: sc-nfs-pvc
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: sc-nfs-pvc
+          persistentVolumeClaim:
+            claimName: sc-nfs-pvc-myweb
