@@ -12,8 +12,11 @@ in my case I'm on single virtual machine with kafka, so no docker, kubernetes et
 actual version - https://github.com/prometheus/node_exporter/releases (looking for node_exporter-*.linux-amd64.tar.gz, at moment 1.3.1)
 
 sudo wget -O /opt/node_exporter-1.3.1.linux-amd64.tar.gz https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+
 sudo tar -xzf /opt/node_exporter-1.3.1.linux-amd64.tar.gz -C /opt
+
 sudo rm /opt/node_exporter-1.3.1.linux-amd64.tar.gz
+
 sudo ln -s /opt/node_exporter-1.3.1.linux-amd64 /opt/node_exporter
 
 add it to path
