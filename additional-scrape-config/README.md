@@ -61,5 +61,5 @@ NOTE: Use only one secret for ALL additional scrape configurations.
 
 ## Additional References
 
-* [Prometheus Spec](api.md#monitoring.coreos.com/v1.PrometheusSpec)
-* [Additional Scrape Configs](../example/additional-scrape-configs)
+* [Prometheus Spec](https://github.com/Vaskata84/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.PrometheusSpec)
+* [Additional Scrape Configs](https://github.com/Vaskata84/prometheus-operator/tree/main/example/additional-scrape-configs)
