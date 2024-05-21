@@ -95,7 +95,8 @@ kubectl apply -f custom-resources.yaml
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 https://github.com/flannel-io/flannel#deploying-flannel-manually
 
-sudo systemctl restart containerd coredns - pending
+sudo systemctl restart containerd coredns - pending all server
+systemctl daemon-reload 
 
 
 ```
