@@ -122,6 +122,7 @@ sudo systemctl enable cri-docker.service
 sudo systemctl enable cri-docker.socket
 sudo systemctl start cri-docker.service
 sudo systemctl start cri-docker.socket
+journalctl -u cri-docker.service
 ```
 #### Join the cluster with the token provided by the cluster 
 ### Get running nodes 
