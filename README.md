@@ -83,6 +83,8 @@ apt-mark hold kubelet kubeadm kubectl
 ```bash 
 kubeadm init --pod-network-cidr 10.10.0.0/16 --kubernetes-version 1.26.1 --node-name k8s-control     ///change to you network cidr
 
+kubeadm init --config=kubeadm-config.yaml --upload-certs from a file
+
 ```
 
 ### Adding Calico 3.25 CNI or flannel Install cri-dockerd
