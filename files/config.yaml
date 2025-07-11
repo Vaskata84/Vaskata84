@@ -1,0 +1,26 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: v1.25.9
+controlPlaneEndpoint: "192.168.88.53:6443"
+etcd:
+  external:
+    endpoints:
+      - https://192.168.88.128:2379
+      - https://192.168.88.129:2379
+      - https://192.168.88.130:2379
+    caFile: /etc/etcd/ca.pem
+    certFile: /etc/etcd/kubernetes.pem
+    keyFile: /etc/etcd/kubernetes-key.pem
+networking:
+  podSubnet: 10.244.0.0/16
+apiServer:
+  certSANs:
+    - "192.168.88.53"
+    - "192.168.88.128"
+    - "192.168.88.129"
+    - "192.168.88.130"
+    - "master01.nsserver.eu"
+    - "master02.nsserver.eu"
+    - "master03.nsserver.eu"
+  extraArgs:
+    apiserver-count: "3"
