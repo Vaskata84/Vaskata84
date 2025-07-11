@@ -125,3 +125,5 @@ sudo tar czf /tmp/kubeconfig.tar.gz -C /root/.kube config
     Пробвай:
 
 kubectl get nodes
+sudo systemctl restart kubelet
+sudo systemctl restart containerd
