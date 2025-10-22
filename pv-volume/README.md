@@ -71,3 +71,15 @@ $ kubectl get pvc sc-nfs-pvc
 NAME         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 sc-nfs-pvc   Bound    pvc-cc93ac54-60ds-4edf-9a48-fd4e1643sawf   2Gi        RWO            nfs-client     15s</pre>
 
+
+# Вижте всички PV-та, свързани с nfs-client
+kubectl get pv | grep nfs-client
+
+# Вижте StorageClass
+kubectl get storageclass nfs-client -o yaml
+
+# Вижте всички PVC-та в кластера
+kubectl get pvc --all-namespaces
+
+# Вижте NFS provisioner pod детайли
+kubectl describe pod nfs-subdir-external-provisioner-6f86f4bcfc-lz78s
