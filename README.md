@@ -9,7 +9,7 @@
 
 **Complete step-by-step guide for setting up a production-ready Kubernetes cluster on bare metal**
 
-[📖 Documentation](https://kubernetes.io/docs/) • [🌐 Visit SupportPC.org](https://supportpc.org) • [💬 Get Support](https://supportpc.org/contact)
+[📖 Documentation](https://kubernetes.io/docs/) • [🌐 Visit SupportPC.org](https://supportpc.org) • [💬 Get Support](https://supportpc.org/#!/contact)
 
 </div>
 
@@ -75,28 +75,28 @@ Before starting, ensure you have:
 ┌─────────────────────────────────────────────────────┐
 │              Kubernetes Cluster Architecture        │
 ├─────────────────────────────────────────────────────┤
-│                                                      │
-│  ┌──────────────────┐      ┌──────────────────┐   │
-│  │   Master Node    │      │   Worker Nodes   │   │
-│  │  (k8s-control)   │◄────►│                  │   │
-│  │                  │      │  - Node 1        │   │
-│  │  - API Server    │      │  - Node 2        │   │
-│  │  - Scheduler     │      │  - Node N        │   │
-│  │  - Controller    │      │                  │   │
-│  └──────────────────┘      └──────────────────┘   │
-│           │                                          │
-│           ▼                                          │
-│  ┌──────────────────────────────────────────┐      │
-│  │  Container Runtime: containerd v1.6.16   │      │
-│  └──────────────────────────────────────────┘      │
-│           │                                          │
-│           ▼                                          │
-│  ┌──────────────────────────────────────────┐      │
-│  │  CNI Plugin (Choose one):                │      │
-│  │  • Calico v3.25 (Recommended)            │      │
-│  │  • Flannel                                │      │
-│  └──────────────────────────────────────────┘      │
-│                                                      │
+│                                                     │
+│  ┌──────────────────┐      ┌──────────────────┐     │
+│  │   Master Node    │      │   Worker Nodes   │     │
+│  │  (k8s-control)   │◄────►│                  │     │
+│  │                  │      │  - Node 1        │     │
+│  │  - API Server    │      │  - Node 2        │     │
+│  │  - Scheduler     │      │  - Node N        │     │
+│  │  - Controller    │      │                  │     │
+│  └──────────────────┘      └──────────────────┘     │
+│           │                                         │
+│           ▼                                         │
+│  ┌──────────────────────────────────────────┐       │
+│  │  Container Runtime: containerd v1.6.16   │       │
+│  └──────────────────────────────────────────┘       │
+│           │                                         │
+│           ▼                                         │
+│  ┌──────────────────────────────────────────┐       │
+│  │  CNI Plugin (Choose one):                │       │
+│  │  • Calico v3.25 (Recommended)            │       │
+│  │  • Flannel                               │       │
+│  └──────────────────────────────────────────┘       │
+│                                                     │
 └─────────────────────────────────────────────────────┘
 ```
 
