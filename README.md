@@ -93,8 +93,8 @@ Before starting, ensure you have:
 │           ▼                                         │
 │  ┌──────────────────────────────────────────┐       │
 │  │  CNI Plugin (Choose one):                │       │
-│  │  • Calico v3.25 (Recommended)            │       │
-│  │  • Flannel                               │       │
+│  │  • Calico v3.25                          │       │
+│  │  • Flannel (Recommended)                 │       │
 │  └──────────────────────────────────────────┘       │
 │                                                     │
 └─────────────────────────────────────────────────────┘
