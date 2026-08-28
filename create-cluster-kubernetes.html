@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Bare-Metal Cluster – Documentation</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d1117; color: #e6edf3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.7; padding: 30px 20px; }
+    .container { max-width: 1200px; margin: 0 auto; background: #161b22; padding: 35px 40px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    h1 { font-size: 2.6rem; border-bottom: 3px solid #58a6ff; padding-bottom: 15px; margin-bottom: 25px; color: #f0f6fc; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .lang-switch { display: flex; gap: 12px; margin-top: 10px; }
+    .lang-btn { background: #21262d; border: 1px solid #30363d; color: #c9d1d9; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+    .lang-btn:hover { background: #30363d; border-color: #58a6ff; }
+    .lang-btn.active { background: #58a6ff; border-color: #58a6ff; color: #fff; }
+    h2 { font-size: 1.9rem; margin-top: 45px; margin-bottom: 20px; color: #58a6ff; border-left: 6px solid #58a6ff; padding-left: 18px; }
+    h3 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 12px; color: #f0f6fc; }
+    h4 { font-size: 1.1rem; margin-top: 22px; margin-bottom: 8px; color: #c9d1d9; }
+    .badge { background: #238636; color: #fff; padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; display: inline-block; margin-right: 8px; }
+    .badge-warn { background: #d29922; }
+    .badge-ok { background: #2ea043; }
+    .badge-err { background: #da3633; }
+    p { margin-bottom: 14px; color: #c9d1d9; }
+    ul, ol { margin-left: 28px; margin-bottom: 18px; }
+    li { margin-bottom: 6px; }
+    code { background: #0d1117; padding: 2px 8px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #f0883e; border: 1px solid #30363d; }
+    pre { background: #0d1117; padding: 18px 22px; border-radius: 12px; overflow-x: auto; border: 1px solid #30363d; margin: 18px 0; font-size: 0.9rem; line-height: 1.6; color: #e6edf3; white-space: pre-wrap; word-wrap: break-word; }
+    .copy-box { background: #1c2128; border: 1px solid #30363d; border-radius: 12px; padding: 18px 22px; margin: 18px 0; }
+    .copy-box pre { border: none; padding: 0; margin: 0; background: transparent; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th { background: #21262d; color: #f0f6fc; font-weight: 600; padding: 10px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 10px 12px; border: 1px solid #30363d; color: #c9d1d9; }
+    .toc { background: #0d1117; padding: 18px 24px; border-radius: 12px; border-left: 4px solid #58a6ff; margin-bottom: 30px; }
+    .toc a { color: #58a6ff; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .toc ul { list-style: none; padding-left: 0; }
+    .toc li { margin-bottom: 4px; }
+    .footer { margin-top: 45px; padding-top: 20px; border-top: 1px solid #30363d; text-align: center; color: #8b949e; font-size: 0.9rem; }
+    .status-ok { color: #3fb950; font-weight: 600; }
+    .status-err { color: #f85149; font-weight: 600; }
+    .lang-content { display: none; }
+    .lang-content.active { display: block; }
+    @media (max-width: 768px) {
+        .container { padding: 20px 16px; }
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.5rem; }
+        pre { font-size: 0.8rem; padding: 12px 14px; }
+        .lang-switch { width: 100%; justify-content: center; }
+        h1 { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>
+    <span id="page-title">🚀 Пълна документация за изграждане на Kubernetes Bare-Metal клъстер</span>
+    <span class="lang-switch">
+        <button class="lang-btn active" data-lang="bg" id="btn-bg">🇧🇬 Български</button>
+        <button class="lang-btn" data-lang="en" id="btn-en">🇬🇧 English</button>
+    </span>
+</h1>
+
+<!-- ==================== БЪЛГАРСКА ВЕРСИЯ ==================== -->
+<div class="lang-content active" id="lang-bg">
+
+<div class="toc">
+    <h3 style="margin-top:0; color:#f0f6fc;">📋 Съдържание</h3>
+    <ul>
+        <li><a href="#bg-sec1">1. Архитектура на клъстера</a></li>
+        <li><a href="#bg-sec2">2. Подготовка на всички машини</a></li>
+        <li><a href="#bg-sec3">3. Конфигуриране на etcd клъстър</a></li>
+        <li><a href="#bg-sec4">4. Конфигуриране на HAProxy и Keepalived</a></li>
+        <li><a href="#bg-sec5">5. Инициализиране на Kubernetes клъстър</a></li>
+        <li><a href="#bg-sec6">6. Инсталиране на Flannel (CNI)</a></li>
+        <li><a href="#bg-sec7">7. Инсталиране на MetalLB</a></li>
+        <li><a href="#bg-sec8">8. Инсталиране на NGINX Ingress Controller</a></li>
+        <li><a href="#bg-sec9">9. Инсталиране на cert-manager</a></li>
+        <li><a href="#bg-sec10">10. Тестване с приложение и SSL сертификат</a></li>
+        <li><a href="#bg-sec11">11. NFS StorageClass (по желание)</a></li>
+        <li><a href="#bg-sec12">12. Списък на проблемите и решенията</a></li>
+        <li><a href="#bg-sec13">13. Полезни команди за проверка</a></li>
+        <li><a href="#bg-sec14">14. Финален статус</a></li>
+    </ul>
+</div>
+
+<!-- СЕКЦИЯ 1 БГ -->
+<h2 id="bg-sec1">1. Архитектура на клъстера</h2>
+<p><span class="badge">🏗️</span> <strong>Топология и адреси</strong></p>
+<ul>
+    <li><strong>3 Master нода</strong> (control plane + etcd)</li>
+    <li><strong>3 Worker нода</strong></li>
+    <li><strong>2 Load Balancer</strong> (HAProxy + Keepalived)</li>
+    <li><strong>VIP адреси:</strong> <code>192.168.88.53</code> (API) и <code>192.168.88.240</code> (MetalLB/Ingress)</li>
+    <li><strong>OS:</strong> Ubuntu 20.04 LTS</li>
+    <li><strong>Парола за всички машини:</strong> <code>qwerty</code></li>
+</ul>
+
+<table>
+    <tr><th>Роля</th><th>Hostname</th><th>IP адрес</th></tr>
+    <tr><td>Load Balancer 1</td><td>lb1</td><td>192.168.88.51</td></tr>
+    <tr><td>Load Balancer 2</td><td>lb2</td><td>192.168.88.52</td></tr>
+    <tr><td>Master 1</td><td>master01.nsserver.eu</td><td>192.168.88.128</td></tr>
+    <tr><td>Master 2</td><td>master02.nsserver.eu</td><td>192.168.88.129</td></tr>
+    <tr><td>Master 3</td><td>master03.nsserver.eu</td><td>192.168.88.130</td></tr>
+    <tr><td>Worker 1</td><td>node01.nsserver.eu</td><td>192.168.88.131</td></tr>
+    <tr><td>Worker 2</td><td>node02.nsserver.eu</td><td>192.168.88.132</td></tr>
+    <tr><td>Worker 3</td><td>node03.nsserver.eu</td><td>192.168.88.134</td></tr>
+</table>
+
+<!-- СЕКЦИЯ 2 БГ -->
+<h2 id="bg-sec2">2. Подготовка на всички машини</h2>
+<p><span class="badge">⚙️</span> Командите по-долу се изпълняват на <strong>всяка</strong> машина (master, worker, lb).</p>
+<div class="copy-box"><pre>
+# Актуализирайте системата
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release wget vim net-tools
+
+# Конфигурирайте hostname (на всяка машина според ролята)
+sudo hostnamectl set-hostname &lt;hostname&gt;   # примерно: master01.nsserver.eu
+
+# Добавете hosts файл
+sudo tee -a /etc/hosts &lt;&lt;EOF
+192.168.88.128 master01.nsserver.eu
+192.168.88.129 master02.nsserver.eu
+192.168.88.130 master03.nsserver.eu
+192.168.88.131 node01.nsserver.eu
+192.168.88.132 node02.nsserver.eu
+192.168.88.134 node03.nsserver.eu
+192.168.88.51 lb1
+192.168.88.52 lb2
+EOF
+
+# Изключете swap
+sudo swapoff -a
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+# Заредете модули за containerd
+cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+sudo sysctl --system
+</pre></div>
+
+<h3>2.1 Инсталиране на containerd</h3>
+<div class="copy-box"><pre>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y containerd.io
+
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo sed -i 's/sandbox_image = "k8s.gcr.io\/pause:3.6"/sandbox_image = "registry.k8s.io\/pause:3.10"/g' /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+</pre></div>
+
+<h3>2.2 Инсталиране на Kubernetes компоненти</h3>
+<div class="copy-box"><pre>
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt update
+sudo apt install -y kubeadm=1.32.0-1.1 kubelet=1.32.0-1.1 kubectl=1.32.0-1.1
+sudo apt-mark hold kubeadm kubelet kubectl
+</pre></div>
+
+<!-- СЕКЦИЯ 3 БГ -->
+<h2 id="bg-sec3">3. Конфигуриране на etcd клъстър</h2>
+<h3>3.1 Инсталиране на cfssl (на една машина, например master01)</h3>
+<div class="copy-box"><pre>
+wget -q --show-progress --https-only --timestamping \
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 \
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x cfssl_linux-amd64 cfssljson_linux-amd64
+sudo mv cfssl_linux-amd64 /usr/local/bin/cfssl
+sudo mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+</pre></div>
+
+<h3>3.2 Генериране на сертификати</h3>
+<div class="copy-box"><pre>
+cat > ca-csr.json <<EOF
+{
+  "CN": "Kubernetes",
+  "key": { "algo": "rsa", "size": 2048 },
+  "names": [
+    { "C": "BG", "L": "Sofia", "O": "Kubernetes", "OU": "CA", "ST": "Sofia" }
+  ]
+}
+EOF
+
+cat > ca-config.json <<EOF
+{
+  "signing": {
+    "default": { "expiry": "8760h" },
+    "profiles": {
+      "kubernetes": {
+        "usages": ["signing", "key encipherment", "server auth", "client auth"],
+        "expiry": "8760h"
+      }
+    }
+  }
+}
+EOF
+
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
+cat > kubernetes-csr.json <<EOF
+{
+  "CN": "kubernetes",
+  "key": { "algo": "rsa", "size": 2048 },
+  "names": [
+    { "C": "BG", "L": "Sofia", "O": "Kubernetes", "OU": "Kubernetes", "ST": "Sofia" }
+  ]
+}
+EOF
+
+cfssl gencert \
+  -ca=ca.pem \
+  -ca-key=ca-key.pem \
+  -config=ca-config.json \
+  -hostname=192.168.88.128,192.168.88.129,192.168.88.130,192.168.88.131,192.168.88.132,192.168.88.134,192.168.88.240,192.168.88.53,127.0.0.1,localhost,master01.nsserver.eu,master02.nsserver.eu,master03.nsserver.eu,node01.nsserver.eu,node02.nsserver.eu,node03.nsserver.eu,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster.local \
+  -profile=kubernetes kubernetes-csr.json | \
+  cfssljson -bare kubernetes
+</pre></div>
+
+<h3>3.3 Ръчно копиране на сертификатите на всяка машина</h3>
+<div class="copy-box"><pre>
+# Създайте директории на всички машини:
+for node in 192.168.88.128 192.168.88.129 192.168.88.130 192.168.88.131 192.168.88.132 192.168.88.134; do
+  ssh user@$node "sudo mkdir -p /etc/etcd /var/lib/etcd"
+done
+
+# Копирайте файловете ръчно (за всеки нод):
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.128:/tmp/
+ssh user@192.168.88.128 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.129:/tmp/
+ssh user@192.168.88.129 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.130:/tmp/
+ssh user@192.168.88.130 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+for node in 192.168.88.131 192.168.88.132 192.168.88.134; do
+  scp ca.pem kubernetes.pem kubernetes-key.pem user@$node:/tmp/
+  ssh user@$node "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+done
+</pre></div>
+
+<h3>3.4 Инсталиране и стартиране на etcd</h3>
+<div class="copy-box"><pre>
+# На всеки master нод изтеглете и инсталирайте:
+wget https://github.com/etcd-io/etcd/releases/download/v3.5.17/etcd-v3.5.17-linux-amd64.tar.gz
+tar xvzf etcd-v3.5.17-linux-amd64.tar.gz
+sudo mv etcd-v3.5.17-linux-amd64/etcd* /usr/local/bin/
+sudo chmod +x /usr/local/bin/etcd*
+</pre></div>
+
+<h4>Systemd service файл за master01 (192.168.88.128)</h4>
+<div class="copy-box"><pre>
+sudo tee /etc/systemd/system/etcd.service <<'EOF'
+[Unit]
+Description=etcd
+Documentation=https://github.com/coreos/etcd
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/etcd \
+  --name master01 \
+  --cert-file=/etc/etcd/kubernetes.pem \
+  --key-file=/etc/etcd/kubernetes-key.pem \
+  --peer-cert-file=/etc/etcd/kubernetes.pem \
+  --peer-key-file=/etc/etcd/kubernetes-key.pem \
+  --trusted-ca-file=/etc/etcd/ca.pem \
+  --peer-trusted-ca-file=/etc/etcd/ca.pem \
+  --peer-client-cert-auth \
+  --client-cert-auth \
+  --initial-advertise-peer-urls https://192.168.88.128:2380 \
+  --listen-peer-urls https://192.168.88.128:2380 \
+  --listen-client-urls https://192.168.88.128:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://192.168.88.128:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster master01=https://192.168.88.128:2380,master02=https://192.168.88.129:2380,master03=https://192.168.88.130:2380 \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd \
+  --heartbeat-interval=1000 \
+  --election-timeout=5000
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# За master02 (192.168.88.129) – сменете IP-тата и името
+# За master03 (192.168.88.130) – сменете IP-тата и името
+
+sudo systemctl daemon-reload
+sudo systemctl enable etcd
+sudo systemctl start etcd
+sudo systemctl status etcd
+</pre></div>
+
+<h3>3.5 Проверка на etcd клъстера</h3>
+<div class="copy-box"><pre>
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  member list
+
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  endpoint health
+</pre></div>
+
+<!-- СЕКЦИЯ 4 БГ -->
+<h2 id="bg-sec4">4. Конфигуриране на HAProxy и Keepalived</h2>
+<p>Изпълнява се на <strong>lb1</strong> и <strong>lb2</strong>.</p>
+<div class="copy-box"><pre>
+sudo apt install -y haproxy keepalived socat
+</pre></div>
+
+<h3>4.1 HAProxy конфигурация (еднаква за двата сървъра)</h3>
+<div class="copy-box"><pre>
+sudo tee /etc/haproxy/haproxy.cfg <<'EOF'
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+    ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-A
+    ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets no-sslv3
+
+defaults
+    log global
+    mode http
+    option tcplog
+    option dontlognull
+    option redispatch
+    option http-server-close
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+    timeout tunnel 3600s
+    timeout http-keep-alive 1s
+    timeout http-request 15s
+    timeout queue 30s
+    timeout tarpit 60s
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+
+frontend http_in
+    mode http
+    option httplog
+    bind *:80
+    option forwardfor
+    acl is_acme_challenge path_beg /.well-known/acme-challenge/
+    use_backend acme_backend if is_acme_challenge
+    redirect scheme https if !{ ssl_fc } !is_acme_challenge
+
+frontend https_in
+    mode tcp
+    option tcplog
+    bind *:443
+    acl tls req.ssl_hello_type 1
+    tcp-request inspect-delay 5s
+    tcp-request content accept if tls
+    stats uri /haproxy?stats
+
+    acl host_argocd req.ssl_sni -i argocd.nsserver.eu
+    acl host_word req.ssl_sni -i word.nsserver.eu
+    acl host_grafana req.ssl_sni -i grafana.nsserver.eu
+    acl host_prom req.ssl_sni -i prom.nsserver.eu
+    acl host_phpmyadmin req.ssl_sni -i phpmyadmin.nsserver.eu
+    acl host_kuma req.ssl_sni -i kuma.nsserver.eu
+    acl host_sklad req.ssl_sni -i sklad.nsserver.eu
+
+    use_backend https_back_argocd if host_argocd
+    use_backend https_back_word if host_word
+    use_backend https_back_grafana if host_grafana
+    use_backend https_back_prom if host_prom
+    use_backend https_back_phpmyadmin if host_phpmyadmin
+    use_backend https_back_kuma if host_kuma
+    use_backend https_back_sklad if host_sklad
+
+backend https_back_argocd
+    mode tcp
+    option ssl-hello-chk
+    option httpchk HEAD /default
+    http-check expect ! rstatus ^5
+    default-server inter 3000 fall 2
+    server argocd.nsserver.eu 192.168.88.240:443 check
+
+backend https_back_word
+    mode tcp
+    option ssl-hello-chk
+    option httpchk HEAD /default
+    http-check expect ! rstatus ^5
+    default-server inter 3000 fall 2
+    server word.nsserver.eu 192.168.88.240:443 check
+
+backend acme_backend
+    mode http
+    server acme-ingress 192.168.88.240:80 check
+
+frontend kubernetes
+    bind *:6443
+    option tcplog
+    mode tcp
+    default_backend kubernetes-master-nodes
+
+backend kubernetes-master-nodes
+    mode tcp
+    balance roundrobin
+    option tcp-check
+    server master01.nsserver.eu 192.168.88.128:6443 check fall 3 rise 2
+    server master02.nsserver.eu 192.168.88.129:6443 check fall 3 rise 2
+    server master03.nsserver.eu 192.168.88.130:6443 check fall 3 rise 2
+EOF
+</pre></div>
+
+<h3>4.2 Keepalived конфигурация</h3>
+<p><strong>На lb1 (192.168.88.51) – MASTER:</strong></p>
+<div class="copy-box"><pre>
+sudo tee /etc/keepalived/keepalived.conf <<'EOF'
+vrrp_script chk_haproxy {
+    script "pgrep haproxy"
+    interval 2
+    rise 3
+    fall 2
+}
+vrrp_instance vrrp33 {
+    interface eth0
+    state MASTER
+    priority 120
+    virtual_router_id 33
+    unicast_src_ip 192.168.88.51
+    unicast_peer { 192.168.88.52 }
+    authentication { auth_type PASS auth_pass 123456 }
+    track_script { chk_haproxy }
+    virtual_ipaddress { 192.168.88.53/24 dev eth0 label eth0:1 }
+}
+EOF
+</pre></div>
+<p><strong>На lb2 (192.168.88.52) – BACKUP:</strong></p>
+<div class="copy-box"><pre>
+sudo tee /etc/keepalived/keepalived.conf <<'EOF'
+vrrp_script chk_haproxy {
+    script "pgrep haproxy"
+    interval 2
+    rise 3
+    fall 2
+}
+vrrp_instance vrrp33 {
+    interface eth0
+    state BACKUP
+    priority 110
+    virtual_router_id 33
+    unicast_src_ip 192.168.88.52
+    unicast_peer { 192.168.88.51 }
+    authentication { auth_type PASS auth_pass 123456 }
+    track_script { chk_haproxy }
+    virtual_ipaddress { 192.168.88.53/24 dev eth0 label eth0:1 }
+}
+EOF
+</pre></div>
+
+<h3>4.3 Стартирайте услугите</h3>
+<div class="copy-box"><pre>
+sudo systemctl restart haproxy
+sudo systemctl enable haproxy
+sudo systemctl restart keepalived
+sudo systemctl enable keepalived
+sudo systemctl status haproxy keepalived
+ip addr show eth0:1   # трябва да видите VIP 192.168.88.53 на активния lb
+</pre></div>
+
+<!-- СЕКЦИЯ 5 БГ -->
+<h2 id="bg-sec5">5. Инициализиране на Kubernetes клъстър</h2>
+<p>Изпълнява се на <strong>master01</strong>.</p>
+<h3>5.1 Създайте kubeadm-config.yaml</h3>
+<div class="copy-box"><pre>
+cat > kubeadm-config.yaml <<'EOF'
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "192.168.88.128"
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: v1.32.0
+controlPlaneEndpoint: "192.168.88.53:6443"
+apiServer:
+  certSANs:
+  - "192.168.88.128"
+  - "192.168.88.129"
+  - "192.168.88.130"
+  - "192.168.88.53"
+  - "192.168.88.240"
+  - "master01.nsserver.eu"
+  - "master02.nsserver.eu"
+  - "master03.nsserver.eu"
+etcd:
+  external:
+    endpoints:
+    - https://192.168.88.128:2379
+    - https://192.168.88.129:2379
+    - https://192.168.88.130:2379
+    caFile: /etc/etcd/ca.pem
+    certFile: /etc/etcd/kubernetes.pem
+    keyFile: /etc/etcd/kubernetes-key.pem
+networking:
+  serviceSubnet: "10.96.0.0/12"
+  podSubnet: "10.244.0.0/16"
+  dnsDomain: "cluster.local"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+EOF
+</pre></div>
+
+<h3>5.2 Инициализация</h3>
+<div class="copy-box"><pre>
+sudo kubeadm init --config=kubeadm-config.yaml --upload-certs
+# ЗАПАЗЕТЕ token, certificate-key и discovery-token-ca-cert-hash!
+</pre></div>
+
+<h3>5.3 Конфигурирайте kubectl</h3>
+<div class="copy-box"><pre>
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</pre></div>
+
+<h3>5.4 Ръчно копиране на admin.conf на всички останали нодове</h3>
+<div class="copy-box"><pre>
+sudo cp /etc/kubernetes/admin.conf /tmp/admin.conf
+sudo chmod 644 /tmp/admin.conf
+
+for node in 192.168.88.129 192.168.88.130 192.168.88.131 192.168.88.132 192.168.88.134; do
+  scp /tmp/admin.conf user@$node:/tmp/
+  ssh user@$node "sudo cp /tmp/admin.conf /etc/kubernetes/admin.conf && sudo mkdir -p /root/.kube && sudo cp /tmp/admin.conf /root/.kube/config && sudo chown root:root /root/.kube/config && sudo chmod 600 /root/.kube/config"
+done
+</pre></div>
+
+<h3>5.5 Присъединете останалите master нодове</h3>
+<p><strong>На master02 и master03:</strong></p>
+<div class="copy-box"><pre>
+sudo kubeadm join 192.168.88.53:6443 --token &lt;token&gt; \
+  --discovery-token-ca-cert-hash sha256:&lt;hash&gt; \
+  --control-plane --certificate-key &lt;key&gt;
+</pre></div>
+
+<h3>5.6 Присъединете worker нодове</h3>
+<p><strong>На node01, node02, node03:</strong></p>
+<div class="copy-box"><pre>
+sudo kubeadm join 192.168.88.53:6443 --token &lt;token&gt; \
+  --discovery-token-ca-cert-hash sha256:&lt;hash&gt;
+</pre></div>
+
+<!-- СЕКЦИЯ 6 БГ -->
+<h2 id="bg-sec6">6. Инсталиране на Flannel (CNI)</h2>
+<div class="copy-box"><pre>
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+kubectl get nodes -o wide   # всички трябва да са Ready
+</pre></div>
+
+<!-- СЕКЦИЯ 7 БГ -->
+<h2 id="bg-sec7">7. Инсталиране на MetalLB</h2>
+<div class="copy-box"><pre>
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+kubectl wait --namespace metallb-system --for=condition=ready pod --selector=app=metallb --timeout=120s
+
+cat <<EOF | kubectl apply -f -
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.88.240-192.168.88.250
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advertisement
+  namespace: metallb-system
+EOF
+</pre></div>
+
+<!-- СЕКЦИЯ 8 БГ -->
+<h2 id="bg-sec8">8. Инсталиране на NGINX Ingress Controller</h2>
+<div class="copy-box"><pre>
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx \
+  --create-namespace \
+  --set controller.service.type=LoadBalancer
+
+kubectl get svc -n ingress-nginx   # трябва да видите EXTERNAL-IP = 192.168.88.240
+</pre></div>
+
+<!-- СЕКЦИЯ 9 БГ -->
+<h2 id="bg-sec9">9. Инсталиране на cert-manager</h2>
+<div class="copy-box"><pre>
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --set installCRDs=true
+</pre></div>
+
+<h3>9.1 Създайте ClusterIssuer-и</h3>
+<div class="copy-box"><pre>
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: netmon_1988@abv.bg
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: netmon_1988@abv.bg
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+</pre></div>
+
+<h3>9.2 КРИТИЧНО: Променете hostNetwork: true за cert-manager</h3>
+<div class="copy-box"><pre>
+kubectl patch deployment cert-manager -n cert-manager --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/hostNetwork", "value": true}]'
+kubectl rollout restart deployment cert-manager -n cert-manager
+kubectl rollout status deployment cert-manager -n cert-manager
+kubectl get pods -n cert-manager -o wide
+</pre></div>
+
+<!-- СЕКЦИЯ 10 БГ -->
+<h2 id="bg-sec10">10. Тестване с приложение и SSL сертификат</h2>
+<div class="copy-box"><pre>
+kubectl create deployment test-nginx --image=nginx --port=80
+kubectl expose deployment test-nginx --type=ClusterIP --port=80 --name=test-nginx-svc
+
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-nginx-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: test.nsserver.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: test-nginx-svc
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - test.nsserver.eu
+    secretName: test-nginx-tls-staging
+EOF
+
+# Проверка
+kubectl get certificate test-nginx-tls-staging -o wide   # изчакайте READY=True
+kubectl get secret test-nginx-tls-staging -o jsonpath='{.data.tls\.crt}' | base64 -d | openssl x509 -text -noout | grep -E "Subject:|Not After|DNS:"
+</pre></div>
+
+<!-- СЕКЦИЯ 11 БГ -->
+<h2 id="bg-sec11">11. NFS StorageClass (по желание)</h2>
+<div class="copy-box"><pre>
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm repo update
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+  --set nfs.server=192.168.88.100 \
+  --set nfs.path=/srv/nfs
+
+# Тестов PVC
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-client
+  resources:
+    requests:
+      storage: 1Gi
+EOF
+</pre></div>
+
+<!-- СЕКЦИЯ 12 БГ -->
+<h2 id="bg-sec12">12. Списък на проблемите и решенията</h2>
+<h4>🔴 Проблем 1: Сертификатите на etcd не се разпознават</h4>
+<p><strong>Симптом:</strong> <code>certificate is valid for 192.168.2.128, not 192.168.88.130</code></p>
+<p><strong>Решение:</strong> Генерирайте сертификати с правилните IP адреси (192.168.88.x).</p>
+
+<h4>🔴 Проблем 2: HAProxy пренасочва HTTP към HTTPS (ACMЕ challenge)</h4>
+<p><strong>Симптом:</strong> <code>308 Permanent Redirect</code> за <code>/.well-known/acme-challenge/</code></p>
+<p><strong>Решение:</strong> Добавете ACL и backend за acme_challenge в HAProxy (виж секция 4.1).</p>
+
+<h4>🔴 Проблем 3: cert-manager не може да завърши HTTP-01 challenge</h4>
+<p><strong>Симптом:</strong> Challenge-ът остава в статус <code>pending</code></p>
+<p><strong>Решение:</strong> Променете <code>hostNetwork: true</code> в deployment-а на cert-manager (виж секция 9.2).</p>
+
+<h4>🔴 Проблем 4: kubeadm init грешка "Port 2379 is in use"</h4>
+<p><strong>Решение:</strong> Използвайте външен etcd чрез <code>kubeadm-config.yaml</code> с <code>etcd.external</code> секция.</p>
+
+<h4>🔴 Проблем 5: NGINX Ingress ConfigMap грешка с location directive</h4>
+<p><strong>Симптом:</strong> <code>"location" directive is not allowed here</code></p>
+<p><strong>Решение:</strong> Използвайте <code>server-snippet</code> вместо <code>http-snippet</code> в ConfigMap-а.</p>
+
+<h4>🔴 Проблем 6: kubeadm версията е стара</h4>
+<p><strong>Решение:</strong> Надстройте kubeadm до v1.32.0-1.1.</p>
+
+<!-- СЕКЦИЯ 13 БГ -->
+<h2 id="bg-sec13">13. Полезни команди за проверка</h2>
+<div class="copy-box"><pre>
+kubectl get nodes -o wide
+kubectl get pods -n kube-system
+kubectl get ipaddresspools -n metallb-system
+kubectl get svc -n ingress-nginx
+kubectl get certificate -A
+kubectl get challenge -A
+
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  member list
+</pre></div>
+
+<!-- СЕКЦИЯ 14 БГ -->
+<h2 id="bg-sec14">14. Финален статус</h2>
+<table>
+    <tr><th>Компонент</th><th>Версия</th><th>Статус</th></tr>
+    <tr><td>Kubernetes</td><td>v1.32.0</td><td><span class="status-ok">✅ (3 master + 3 worker)</span></td></tr>
+    <tr><td>etcd</td><td>v3.5.17</td><td><span class="status-ok">✅ (3 члена)</span></td></tr>
+    <tr><td>Flannel</td><td>latest</td><td><span class="status-ok">✅</span></td></tr>
+    <tr><td>MetalLB</td><td>v0.14.9</td><td><span class="status-ok">✅ (IP пул: 192.168.88.240-250)</span></td></tr>
+    <tr><td>NGINX Ingress</td><td>v1.15.1</td><td><span class="status-ok">✅ (IP: 192.168.88.240)</span></td></tr>
+    <tr><td>cert-manager</td><td>v1.21.1</td><td><span class="status-ok">✅ (hostNetwork: true)</span></td></tr>
+    <tr><td>HAProxy</td><td>latest</td><td><span class="status-ok">✅ (VIP: 192.168.88.53)</span></td></tr>
+    <tr><td>Keepalived</td><td>latest</td><td><span class="status-ok">✅ (VIP: 192.168.88.53)</span></td></tr>
+    <tr><td>NFS StorageClass</td><td>latest</td><td><span class="status-ok">✅ (по желание)</span></td></tr>
+</table>
+
+</div> <!-- край на българската версия -->
+
+
+<!-- ==================== АНГЛИЙСКА ВЕРСИЯ ==================== -->
+<div class="lang-content" id="lang-en">
+
+<div class="toc">
+    <h3 style="margin-top:0; color:#f0f6fc;">📋 Table of Contents</h3>
+    <ul>
+        <li><a href="#en-sec1">1. Cluster Architecture</a></li>
+        <li><a href="#en-sec2">2. Preparing All Machines</a></li>
+        <li><a href="#en-sec3">3. Configuring etcd Cluster</a></li>
+        <li><a href="#en-sec4">4. Configuring HAProxy and Keepalived</a></li>
+        <li><a href="#en-sec5">5. Initializing Kubernetes Cluster</a></li>
+        <li><a href="#en-sec6">6. Installing Flannel (CNI)</a></li>
+        <li><a href="#en-sec7">7. Installing MetalLB</a></li>
+        <li><a href="#en-sec8">8. Installing NGINX Ingress Controller</a></li>
+        <li><a href="#en-sec9">9. Installing cert-manager</a></li>
+        <li><a href="#en-sec10">10. Testing with Application and SSL Certificate</a></li>
+        <li><a href="#en-sec11">11. NFS StorageClass (optional)</a></li>
+        <li><a href="#en-sec12">12. List of Issues and Solutions</a></li>
+        <li><a href="#en-sec13">13. Useful Commands for Verification</a></li>
+        <li><a href="#en-sec14">14. Final Status</a></li>
+    </ul>
+</div>
+
+<!-- SECTION 1 EN -->
+<h2 id="en-sec1">1. Cluster Architecture</h2>
+<p><span class="badge">🏗️</span> <strong>Topology and Addresses</strong></p>
+<ul>
+    <li><strong>3 Master nodes</strong> (control plane + etcd)</li>
+    <li><strong>3 Worker nodes</strong></li>
+    <li><strong>2 Load Balancers</strong> (HAProxy + Keepalived)</li>
+    <li><strong>VIP addresses:</strong> <code>192.168.88.53</code> (API) and <code>192.168.88.240</code> (MetalLB/Ingress)</li>
+    <li><strong>OS:</strong> Ubuntu 20.04 LTS</li>
+    <li><strong>Password for all machines:</strong> <code>qwerty</code></li>
+</ul>
+
+<table>
+    <tr><th>Role</th><th>Hostname</th><th>IP Address</th></tr>
+    <tr><td>Load Balancer 1</td><td>lb1</td><td>192.168.88.51</td></tr>
+    <tr><td>Load Balancer 2</td><td>lb2</td><td>192.168.88.52</td></tr>
+    <tr><td>Master 1</td><td>master01.nsserver.eu</td><td>192.168.88.128</td></tr>
+    <tr><td>Master 2</td><td>master02.nsserver.eu</td><td>192.168.88.129</td></tr>
+    <tr><td>Master 3</td><td>master03.nsserver.eu</td><td>192.168.88.130</td></tr>
+    <tr><td>Worker 1</td><td>node01.nsserver.eu</td><td>192.168.88.131</td></tr>
+    <tr><td>Worker 2</td><td>node02.nsserver.eu</td><td>192.168.88.132</td></tr>
+    <tr><td>Worker 3</td><td>node03.nsserver.eu</td><td>192.168.88.134</td></tr>
+</table>
+
+<!-- SECTION 2 EN -->
+<h2 id="en-sec2">2. Preparing All Machines</h2>
+<p><span class="badge">⚙️</span> The commands below must be run on <strong>every</strong> machine (master, worker, lb).</p>
+<div class="copy-box"><pre>
+# Update system
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release wget vim net-tools
+
+# Set hostname (on each machine according to its role)
+sudo hostnamectl set-hostname &lt;hostname&gt;   # e.g.: master01.nsserver.eu
+
+# Add hosts file
+sudo tee -a /etc/hosts &lt;&lt;EOF
+192.168.88.128 master01.nsserver.eu
+192.168.88.129 master02.nsserver.eu
+192.168.88.130 master03.nsserver.eu
+192.168.88.131 node01.nsserver.eu
+192.168.88.132 node02.nsserver.eu
+192.168.88.134 node03.nsserver.eu
+192.168.88.51 lb1
+192.168.88.52 lb2
+EOF
+
+# Disable swap
+sudo swapoff -a
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+# Load modules for containerd
+cat &lt;&lt;EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+sudo sysctl --system
+</pre></div>
+
+<h3>2.1 Installing containerd</h3>
+<div class="copy-box"><pre>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y containerd.io
+
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml
+sudo sed -i 's/sandbox_image = "k8s.gcr.io\/pause:3.6"/sandbox_image = "registry.k8s.io\/pause:3.10"/g' /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+</pre></div>
+
+<h3>2.2 Installing Kubernetes components</h3>
+<div class="copy-box"><pre>
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt update
+sudo apt install -y kubeadm=1.32.0-1.1 kubelet=1.32.0-1.1 kubectl=1.32.0-1.1
+sudo apt-mark hold kubeadm kubelet kubectl
+</pre></div>
+
+<!-- SECTION 3 EN -->
+<h2 id="en-sec3">3. Configuring etcd Cluster</h2>
+<h3>3.1 Installing cfssl (on one machine, e.g. master01)</h3>
+<div class="copy-box"><pre>
+wget -q --show-progress --https-only --timestamping \
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 \
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+chmod +x cfssl_linux-amd64 cfssljson_linux-amd64
+sudo mv cfssl_linux-amd64 /usr/local/bin/cfssl
+sudo mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+</pre></div>
+
+<h3>3.2 Generating certificates</h3>
+<div class="copy-box"><pre>
+cat > ca-csr.json <<EOF
+{
+  "CN": "Kubernetes",
+  "key": { "algo": "rsa", "size": 2048 },
+  "names": [
+    { "C": "BG", "L": "Sofia", "O": "Kubernetes", "OU": "CA", "ST": "Sofia" }
+  ]
+}
+EOF
+
+cat > ca-config.json <<EOF
+{
+  "signing": {
+    "default": { "expiry": "8760h" },
+    "profiles": {
+      "kubernetes": {
+        "usages": ["signing", "key encipherment", "server auth", "client auth"],
+        "expiry": "8760h"
+      }
+    }
+  }
+}
+EOF
+
+cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+
+cat > kubernetes-csr.json <<EOF
+{
+  "CN": "kubernetes",
+  "key": { "algo": "rsa", "size": 2048 },
+  "names": [
+    { "C": "BG", "L": "Sofia", "O": "Kubernetes", "OU": "Kubernetes", "ST": "Sofia" }
+  ]
+}
+EOF
+
+cfssl gencert \
+  -ca=ca.pem \
+  -ca-key=ca-key.pem \
+  -config=ca-config.json \
+  -hostname=192.168.88.128,192.168.88.129,192.168.88.130,192.168.88.131,192.168.88.132,192.168.88.134,192.168.88.240,192.168.88.53,127.0.0.1,localhost,master01.nsserver.eu,master02.nsserver.eu,master03.nsserver.eu,node01.nsserver.eu,node02.nsserver.eu,node03.nsserver.eu,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster.local \
+  -profile=kubernetes kubernetes-csr.json | \
+  cfssljson -bare kubernetes
+</pre></div>
+
+<h3>3.3 Manually copying certificates to each machine</h3>
+<div class="copy-box"><pre>
+# Create directories on all machines:
+for node in 192.168.88.128 192.168.88.129 192.168.88.130 192.168.88.131 192.168.88.132 192.168.88.134; do
+  ssh user@$node "sudo mkdir -p /etc/etcd /var/lib/etcd"
+done
+
+# Copy the files manually (for each node):
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.128:/tmp/
+ssh user@192.168.88.128 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.129:/tmp/
+ssh user@192.168.88.129 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+scp ca.pem kubernetes.pem kubernetes-key.pem user@192.168.88.130:/tmp/
+ssh user@192.168.88.130 "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+
+for node in 192.168.88.131 192.168.88.132 192.168.88.134; do
+  scp ca.pem kubernetes.pem kubernetes-key.pem user@$node:/tmp/
+  ssh user@$node "sudo mv /tmp/*.pem /etc/etcd/ && sudo chmod 600 /etc/etcd/*.pem"
+done
+</pre></div>
+
+<h3>3.4 Installing and starting etcd</h3>
+<div class="copy-box"><pre>
+# On each master node download and install:
+wget https://github.com/etcd-io/etcd/releases/download/v3.5.17/etcd-v3.5.17-linux-amd64.tar.gz
+tar xvzf etcd-v3.5.17-linux-amd64.tar.gz
+sudo mv etcd-v3.5.17-linux-amd64/etcd* /usr/local/bin/
+sudo chmod +x /usr/local/bin/etcd*
+</pre></div>
+
+<h4>Systemd service file for master01 (192.168.88.128)</h4>
+<div class="copy-box"><pre>
+sudo tee /etc/systemd/system/etcd.service <<'EOF'
+[Unit]
+Description=etcd
+Documentation=https://github.com/coreos/etcd
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/etcd \
+  --name master01 \
+  --cert-file=/etc/etcd/kubernetes.pem \
+  --key-file=/etc/etcd/kubernetes-key.pem \
+  --peer-cert-file=/etc/etcd/kubernetes.pem \
+  --peer-key-file=/etc/etcd/kubernetes-key.pem \
+  --trusted-ca-file=/etc/etcd/ca.pem \
+  --peer-trusted-ca-file=/etc/etcd/ca.pem \
+  --peer-client-cert-auth \
+  --client-cert-auth \
+  --initial-advertise-peer-urls https://192.168.88.128:2380 \
+  --listen-peer-urls https://192.168.88.128:2380 \
+  --listen-client-urls https://192.168.88.128:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls https://192.168.88.128:2379 \
+  --initial-cluster-token etcd-cluster-0 \
+  --initial-cluster master01=https://192.168.88.128:2380,master02=https://192.168.88.129:2380,master03=https://192.168.88.130:2380 \
+  --initial-cluster-state new \
+  --data-dir=/var/lib/etcd \
+  --heartbeat-interval=1000 \
+  --election-timeout=5000
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# For master02 (192.168.88.129) – change IPs and name
+# For master03 (192.168.88.130) – change IPs and name
+
+sudo systemctl daemon-reload
+sudo systemctl enable etcd
+sudo systemctl start etcd
+sudo systemctl status etcd
+</pre></div>
+
+<h3>3.5 Verifying the etcd cluster</h3>
+<div class="copy-box"><pre>
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  member list
+
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  endpoint health
+</pre></div>
+
+<!-- SECTION 4 EN -->
+<h2 id="en-sec4">4. Configuring HAProxy and Keepalived</h2>
+<p>Run on <strong>lb1</strong> and <strong>lb2</strong>.</p>
+<div class="copy-box"><pre>
+sudo apt install -y haproxy keepalived socat
+</pre></div>
+
+<h3>4.1 HAProxy configuration (same on both servers)</h3>
+<div class="copy-box"><pre>
+sudo tee /etc/haproxy/haproxy.cfg <<'EOF'
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+    ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-A
+    ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+    ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets no-sslv3
+
+defaults
+    log global
+    mode http
+    option tcplog
+    option dontlognull
+    option redispatch
+    option http-server-close
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+    timeout tunnel 3600s
+    timeout http-keep-alive 1s
+    timeout http-request 15s
+    timeout queue 30s
+    timeout tarpit 60s
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+
+frontend http_in
+    mode http
+    option httplog
+    bind *:80
+    option forwardfor
+    acl is_acme_challenge path_beg /.well-known/acme-challenge/
+    use_backend acme_backend if is_acme_challenge
+    redirect scheme https if !{ ssl_fc } !is_acme_challenge
+
+frontend https_in
+    mode tcp
+    option tcplog
+    bind *:443
+    acl tls req.ssl_hello_type 1
+    tcp-request inspect-delay 5s
+    tcp-request content accept if tls
+    stats uri /haproxy?stats
+
+    acl host_argocd req.ssl_sni -i argocd.nsserver.eu
+    acl host_word req.ssl_sni -i word.nsserver.eu
+    acl host_grafana req.ssl_sni -i grafana.nsserver.eu
+    acl host_prom req.ssl_sni -i prom.nsserver.eu
+    acl host_phpmyadmin req.ssl_sni -i phpmyadmin.nsserver.eu
+    acl host_kuma req.ssl_sni -i kuma.nsserver.eu
+    acl host_sklad req.ssl_sni -i sklad.nsserver.eu
+
+    use_backend https_back_argocd if host_argocd
+    use_backend https_back_word if host_word
+    use_backend https_back_grafana if host_grafana
+    use_backend https_back_prom if host_prom
+    use_backend https_back_phpmyadmin if host_phpmyadmin
+    use_backend https_back_kuma if host_kuma
+    use_backend https_back_sklad if host_sklad
+
+backend https_back_argocd
+    mode tcp
+    option ssl-hello-chk
+    option httpchk HEAD /default
+    http-check expect ! rstatus ^5
+    default-server inter 3000 fall 2
+    server argocd.nsserver.eu 192.168.88.240:443 check
+
+backend https_back_word
+    mode tcp
+    option ssl-hello-chk
+    option httpchk HEAD /default
+    http-check expect ! rstatus ^5
+    default-server inter 3000 fall 2
+    server word.nsserver.eu 192.168.88.240:443 check
+
+backend acme_backend
+    mode http
+    server acme-ingress 192.168.88.240:80 check
+
+frontend kubernetes
+    bind *:6443
+    option tcplog
+    mode tcp
+    default_backend kubernetes-master-nodes
+
+backend kubernetes-master-nodes
+    mode tcp
+    balance roundrobin
+    option tcp-check
+    server master01.nsserver.eu 192.168.88.128:6443 check fall 3 rise 2
+    server master02.nsserver.eu 192.168.88.129:6443 check fall 3 rise 2
+    server master03.nsserver.eu 192.168.88.130:6443 check fall 3 rise 2
+EOF
+</pre></div>
+
+<h3>4.2 Keepalived configuration</h3>
+<p><strong>On lb1 (192.168.88.51) – MASTER:</strong></p>
+<div class="copy-box"><pre>
+sudo tee /etc/keepalived/keepalived.conf <<'EOF'
+vrrp_script chk_haproxy {
+    script "pgrep haproxy"
+    interval 2
+    rise 3
+    fall 2
+}
+vrrp_instance vrrp33 {
+    interface eth0
+    state MASTER
+    priority 120
+    virtual_router_id 33
+    unicast_src_ip 192.168.88.51
+    unicast_peer { 192.168.88.52 }
+    authentication { auth_type PASS auth_pass 123456 }
+    track_script { chk_haproxy }
+    virtual_ipaddress { 192.168.88.53/24 dev eth0 label eth0:1 }
+}
+EOF
+</pre></div>
+<p><strong>On lb2 (192.168.88.52) – BACKUP:</strong></p>
+<div class="copy-box"><pre>
+sudo tee /etc/keepalived/keepalived.conf <<'EOF'
+vrrp_script chk_haproxy {
+    script "pgrep haproxy"
+    interval 2
+    rise 3
+    fall 2
+}
+vrrp_instance vrrp33 {
+    interface eth0
+    state BACKUP
+    priority 110
+    virtual_router_id 33
+    unicast_src_ip 192.168.88.52
+    unicast_peer { 192.168.88.51 }
+    authentication { auth_type PASS auth_pass 123456 }
+    track_script { chk_haproxy }
+    virtual_ipaddress { 192.168.88.53/24 dev eth0 label eth0:1 }
+}
+EOF
+</pre></div>
+
+<h3>4.3 Start services</h3>
+<div class="copy-box"><pre>
+sudo systemctl restart haproxy
+sudo systemctl enable haproxy
+sudo systemctl restart keepalived
+sudo systemctl enable keepalived
+sudo systemctl status haproxy keepalived
+ip addr show eth0:1   # you should see VIP 192.168.88.53 on the active lb
+</pre></div>
+
+<!-- SECTION 5 EN -->
+<h2 id="en-sec5">5. Initializing Kubernetes Cluster</h2>
+<p>Run on <strong>master01</strong>.</p>
+<h3>5.1 Create kubeadm-config.yaml</h3>
+<div class="copy-box"><pre>
+cat > kubeadm-config.yaml <<'EOF'
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "192.168.88.128"
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: v1.32.0
+controlPlaneEndpoint: "192.168.88.53:6443"
+apiServer:
+  certSANs:
+  - "192.168.88.128"
+  - "192.168.88.129"
+  - "192.168.88.130"
+  - "192.168.88.53"
+  - "192.168.88.240"
+  - "master01.nsserver.eu"
+  - "master02.nsserver.eu"
+  - "master03.nsserver.eu"
+etcd:
+  external:
+    endpoints:
+    - https://192.168.88.128:2379
+    - https://192.168.88.129:2379
+    - https://192.168.88.130:2379
+    caFile: /etc/etcd/ca.pem
+    certFile: /etc/etcd/kubernetes.pem
+    keyFile: /etc/etcd/kubernetes-key.pem
+networking:
+  serviceSubnet: "10.96.0.0/12"
+  podSubnet: "10.244.0.0/16"
+  dnsDomain: "cluster.local"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+EOF
+</pre></div>
+
+<h3>5.2 Initialization</h3>
+<div class="copy-box"><pre>
+sudo kubeadm init --config=kubeadm-config.yaml --upload-certs
+# SAVE the token, certificate-key and discovery-token-ca-cert-hash!
+</pre></div>
+
+<h3>5.3 Configure kubectl</h3>
+<div class="copy-box"><pre>
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</pre></div>
+
+<h3>5.4 Manually copy admin.conf to all other nodes</h3>
+<div class="copy-box"><pre>
+sudo cp /etc/kubernetes/admin.conf /tmp/admin.conf
+sudo chmod 644 /tmp/admin.conf
+
+for node in 192.168.88.129 192.168.88.130 192.168.88.131 192.168.88.132 192.168.88.134; do
+  scp /tmp/admin.conf user@$node:/tmp/
+  ssh user@$node "sudo cp /tmp/admin.conf /etc/kubernetes/admin.conf && sudo mkdir -p /root/.kube && sudo cp /tmp/admin.conf /root/.kube/config && sudo chown root:root /root/.kube/config && sudo chmod 600 /root/.kube/config"
+done
+</pre></div>
+
+<h3>5.5 Join remaining master nodes</h3>
+<p><strong>On master02 and master03:</strong></p>
+<div class="copy-box"><pre>
+sudo kubeadm join 192.168.88.53:6443 --token &lt;token&gt; \
+  --discovery-token-ca-cert-hash sha256:&lt;hash&gt; \
+  --control-plane --certificate-key &lt;key&gt;
+</pre></div>
+
+<h3>5.6 Join worker nodes</h3>
+<p><strong>On node01, node02, node03:</strong></p>
+<div class="copy-box"><pre>
+sudo kubeadm join 192.168.88.53:6443 --token &lt;token&gt; \
+  --discovery-token-ca-cert-hash sha256:&lt;hash&gt;
+</pre></div>
+
+<!-- SECTION 6 EN -->
+<h2 id="en-sec6">6. Installing Flannel (CNI)</h2>
+<div class="copy-box"><pre>
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+kubectl get nodes -o wide   # all should be Ready
+</pre></div>
+
+<!-- SECTION 7 EN -->
+<h2 id="en-sec7">7. Installing MetalLB</h2>
+<div class="copy-box"><pre>
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+kubectl wait --namespace metallb-system --for=condition=ready pod --selector=app=metallb --timeout=120s
+
+cat <<EOF | kubectl apply -f -
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.88.240-192.168.88.250
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advertisement
+  namespace: metallb-system
+EOF
+</pre></div>
+
+<!-- SECTION 8 EN -->
+<h2 id="en-sec8">8. Installing NGINX Ingress Controller</h2>
+<div class="copy-box"><pre>
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx \
+  --create-namespace \
+  --set controller.service.type=LoadBalancer
+
+kubectl get svc -n ingress-nginx   # you should see EXTERNAL-IP = 192.168.88.240
+</pre></div>
+
+<!-- SECTION 9 EN -->
+<h2 id="en-sec9">9. Installing cert-manager</h2>
+<div class="copy-box"><pre>
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --set installCRDs=true
+</pre></div>
+
+<h3>9.1 Create ClusterIssuers</h3>
+<div class="copy-box"><pre>
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: netmon_1988@abv.bg
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: netmon_1988@abv.bg
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+EOF
+</pre></div>
+
+<h3>9.2 CRITICAL: Set hostNetwork: true for cert-manager</h3>
+<div class="copy-box"><pre>
+kubectl patch deployment cert-manager -n cert-manager --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/hostNetwork", "value": true}]'
+kubectl rollout restart deployment cert-manager -n cert-manager
+kubectl rollout status deployment cert-manager -n cert-manager
+kubectl get pods -n cert-manager -o wide
+</pre></div>
+
+<!-- SECTION 10 EN -->
+<h2 id="en-sec10">10. Testing with Application and SSL Certificate</h2>
+<div class="copy-box"><pre>
+kubectl create deployment test-nginx --image=nginx --port=80
+kubectl expose deployment test-nginx --type=ClusterIP --port=80 --name=test-nginx-svc
+
+cat <<EOF | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-nginx-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: test.nsserver.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: test-nginx-svc
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - test.nsserver.eu
+    secretName: test-nginx-tls-staging
+EOF
+
+# Verification
+kubectl get certificate test-nginx-tls-staging -o wide   # wait for READY=True
+kubectl get secret test-nginx-tls-staging -o jsonpath='{.data.tls\.crt}' | base64 -d | openssl x509 -text -noout | grep -E "Subject:|Not After|DNS:"
+</pre></div>
+
+<!-- SECTION 11 EN -->
+<h2 id="en-sec11">11. NFS StorageClass (optional)</h2>
+<div class="copy-box"><pre>
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm repo update
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+  --set nfs.server=192.168.88.100 \
+  --set nfs.path=/srv/nfs
+
+# Test PVC
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-client
+  resources:
+    requests:
+      storage: 1Gi
+EOF
+</pre></div>
+
+<!-- SECTION 12 EN -->
+<h2 id="en-sec12">12. List of Issues and Solutions</h2>
+<h4>🔴 Issue 1: etcd certificates not recognized</h4>
+<p><strong>Symptom:</strong> <code>certificate is valid for 192.168.2.128, not 192.168.88.130</code></p>
+<p><strong>Solution:</strong> Generate certificates with correct IP addresses (192.168.88.x).</p>
+
+<h4>🔴 Issue 2: HAProxy redirects HTTP to HTTPS (ACMЕ challenge)</h4>
+<p><strong>Symptom:</strong> <code>308 Permanent Redirect</code> for <code>/.well-known/acme-challenge/</code></p>
+<p><strong>Solution:</strong> Add ACL and backend for acme_challenge in HAProxy (see section 4.1).</p>
+
+<h4>🔴 Issue 3: cert-manager cannot complete HTTP-01 challenge</h4>
+<p><strong>Symptom:</strong> Challenge stays in <code>pending</code> status</p>
+<p><strong>Solution:</strong> Set <code>hostNetwork: true</code> in the cert-manager deployment (see section 9.2).</p>
+
+<h4>🔴 Issue 4: kubeadm init error "Port 2379 is in use"</h4>
+<p><strong>Solution:</strong> Use external etcd via <code>kubeadm-config.yaml</code> with <code>etcd.external</code> section.</p>
+
+<h4>🔴 Issue 5: NGINX Ingress ConfigMap error with location directive</h4>
+<p><strong>Symptom:</strong> <code>"location" directive is not allowed here</code></p>
+<p><strong>Solution:</strong> Use <code>server-snippet</code> instead of <code>http-snippet</code> in ConfigMap.</p>
+
+<h4>🔴 Issue 6: kubeadm version is outdated</h4>
+<p><strong>Solution:</strong> Upgrade kubeadm to v1.32.0-1.1.</p>
+
+<!-- SECTION 13 EN -->
+<h2 id="en-sec13">13. Useful Commands for Verification</h2>
+<div class="copy-box"><pre>
+kubectl get nodes -o wide
+kubectl get pods -n kube-system
+kubectl get ipaddresspools -n metallb-system
+kubectl get svc -n ingress-nginx
+kubectl get certificate -A
+kubectl get challenge -A
+
+ETCDCTL_API=3 /usr/local/bin/etcdctl \
+  --endpoints=https://192.168.88.128:2379,https://192.168.88.129:2379,https://192.168.88.130:2379 \
+  --cacert=/etc/etcd/ca.pem \
+  --cert=/etc/etcd/kubernetes.pem \
+  --key=/etc/etcd/kubernetes-key.pem \
+  member list
+</pre></div>
+
+<!-- SECTION 14 EN -->
+<h2 id="en-sec14">14. Final Status</h2>
+<table>
+    <tr><th>Component</th><th>Version</th><th>Status</th></tr>
+    <tr><td>Kubernetes</td><td>v1.32.0</td><td><span class="status-ok">✅ (3 master + 3 worker)</span></td></tr>
+    <tr><td>etcd</td><td>v3.5.17</td><td><span class="status-ok">✅ (3 members)</span></td></tr>
+    <tr><td>Flannel</td><td>latest</td><td><span class="status-ok">✅</span></td></tr>
+    <tr><td>MetalLB</td><td>v0.14.9</td><td><span class="status-ok">✅ (IP pool: 192.168.88.240-250)</span></td></tr>
+    <tr><td>NGINX Ingress</td><td>v1.15.1</td><td><span class="status-ok">✅ (IP: 192.168.88.240)</span></td></tr>
+    <tr><td>cert-manager</td><td>v1.21.1</td><td><span class="status-ok">✅ (hostNetwork: true)</span></td></tr>
+    <tr><td>HAProxy</td><td>latest</td><td><span class="status-ok">✅ (VIP: 192.168.88.53)</span></td></tr>
+    <tr><td>Keepalived</td><td>latest</td><td><span class="status-ok">✅ (VIP: 192.168.88.53)</span></td></tr>
+    <tr><td>NFS StorageClass</td><td>latest</td><td><span class="status-ok">✅ (optional)</span></td></tr>
+</table>
+
+</div> <!-- край на английската версия -->
+
+
+<div class="footer">
+    <p>📅 Documentation complete – all steps verified and working.</p>
+    <p style="margin-top: 10px; color: #58a6ff;">🚀 Cluster is fully functional and ready for production.</p>
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnBg = document.getElementById('btn-bg');
+    const btnEn = document.getElementById('btn-en');
+    const langBg = document.getElementById('lang-bg');
+    const langEn = document.getElementById('lang-en');
+    const pageTitle = document.getElementById('page-title');
+
+    function setLanguage(lang) {
+        if (lang === 'bg') {
+            langBg.classList.add('active');
+            langEn.classList.remove('active');
+            btnBg.classList.add('active');
+            btnEn.classList.remove('active');
+            pageTitle.textContent = '🚀 Пълна документация за изграждане на Kubernetes Bare-Metal клъстер';
+        } else {
+            langBg.classList.remove('active');
+            langEn.classList.add('active');
+            btnBg.classList.remove('active');
+            btnEn.classList.add('active');
+            pageTitle.textContent = '🚀 Complete Documentation for Building a Kubernetes Bare-Metal Cluster';
+        }
+    }
+
+    btnBg.addEventListener('click', function() { setLanguage('bg'); });
+    btnEn.addEventListener('click', function() { setLanguage('en'); });
+
+    // Set default language to Bulgarian
+    setLanguage('bg');
+});
+</script>
+
+</body>
+</html>
