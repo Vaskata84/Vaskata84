@@ -35,3 +35,5 @@ kubectl config get-contexts -o name
 argocd cluster add docker-desktop
 
 kubectl config set-context --current --namespace=argocd
+
+kubectl apply -k https://github.com/argoproj/applicationset.git/manifests/crds?ref=v0.4.1 ако се крашва CrashLoopBackOff за ApplicationSet
